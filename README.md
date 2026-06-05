@@ -17,21 +17,42 @@ steps: number of training steps
 lr: learning rate
 epsilon: used in layer norm to prevent infinity
 
-Overview: take in a batch of T-long tokens, x ~ B * T. Embedd them (with basic position embedding or RoPE), y = Embedd(x) ~ B * T * C. Rearrange it with attention, i.e., y -> y + Att (LayerNorm (y)), where LayerNorm (y) just normalizes each y[b,t,:] across the C dimension, adding a learnable scale and bias, and Att() runs a single query attention mechanism. Then y -> y + MLP(LayerNorm(y)) where MLP is just a ReLU() feedforward layer.
+Overview: take in a batch of T-long tokens, x ~ B * T. Embedd them (with basic position embedding or RoPE), y = Embedd(x) ~ B * T * C. Rearrange it with attention, i.e., y -> y + Att (LayerNorm (y)), where LayerNorm (y) just normalizes each y[b,t,:] across the C dimension, adding a learnable scale and bias, and Att() runs a single query attention mechanism. Then y -> y + MLP(LayerNorm(y)) where MLP is just a ReLU() feedforward layer. The loss function is relative entropy (aka, KL divergence, aka log probability).
 
+I train (locally) on HF's "wikitext-103-raw-v1", with my BPEtokenizer trained with vocab size = 1000.
 
-For tokenization, I use my BPEtokenizer class written and trained on a local text corpus.
+With hyperparameters:
+
+B = 64
+T = 128
+d = 128
+dK = 32
+num_heads = 4
+num_layers = 6
+steps = 10000
+lr: 4e-4
+epsilon = 1e-8
+
+The train and val loss obtained is 1.32 and 1.36 respectively.
 
 
 ######### Exercises
 
-
 I check what basic tweaks does to performance:
 
+1. Add a choice of positional vs. rotary (RoPE). I add RoPE embedding as an option to my LLM class. In the same setting as above, RoPE improves train and val loss to 1.32 and 1.36 respectively.
+
+2. Implement KV cache for efficiency
+
+3. Supervised Fine Tuning (SFT) on .
+
+ The result before and after
 
 
-1. Add a choice of positional vs. rotary (RoPE).
+4. Add a mixture of expert manually.
 
-2. Supervised Fine Tuning (SFT)  on 
 
-3. Basic mech-interp:
+
+6. Basic mech-interp experiments:
+
+7.
