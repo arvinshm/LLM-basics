@@ -1,4 +1,5 @@
 from collections import Counter
+import pickle
 
 class BPE_tk:
     def __init__(self, data):
@@ -15,6 +16,20 @@ class BPE_tk:
         for i in range(len(symbols)-1):
             count[(symbols[i], symbols[i+1])] += 1
         return count
+    
+
+    def add_special_tokens(self, special_tokens):
+        for tok in special_tokens:
+            if tok not in self.stoi:
+                idx = len(self.vocab)
+                self.vocab.append(tok)
+                self.stoi[tok] = idx
+                self.itos[idx] = tok
+        self.pad_id = self.stoi.get("<pad>")
+        self.bos_id = self.stoi.get("<bos>")
+        self.eos_id = self.stoi.get("<eos>")
+        self.unk_id = self.stoi.get("<unk>")
+    
 
     def merge_pairs(self, pair):
         i=0
@@ -74,7 +89,15 @@ class BPE_tk:
         for pair in self.merges:
             syms = self.merge_the_pair(syms, pair)
             
-        out = [self.stoi[s] for s in syms]
+        out = []
+        unk_id = getattr(self, "unk_id", self.stoi.get("<unk>"))
+        for s in syms:
+            if s in self.stoi:
+                out.append(self.stoi[s])
+            elif unk_id is not None:
+                out.append(unk_id)
+            else:
+                raise KeyError(s)
         return out
 
     def decode(self, nums):
@@ -83,7 +106,18 @@ class BPE_tk:
         return ''.join(out)
 
 
+    def save(self, path):
 
+        with open(path, 'wb') as f:
+            pickle.dump(self, f)
+    
+
+    @staticmethod
+    def load(path):
+        
+        with open(path, 'rb') as f:
+            return pickle.load(f)
+    
 
 
 
