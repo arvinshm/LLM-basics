@@ -1,5 +1,5 @@
 # LLM-basics
-Basic exercises in LLM architecture (see below) trained on a local GPU. Codes and description here were written by me. A wise guy said, you can outsource your thinking, but not your understanding.
+Basic exercises in LLM architecture (see below) trained on a local GPU. Tha main code here is written by me. A wise guy said, you can outsource your thinking, but not your understanding.
 
 
 ######### What's in this?
@@ -36,23 +36,15 @@ epsilon = 1e-8
 The train and val loss obtained is 1.32 and 1.36 respectively.
 
 
-######### Exercises
+######### Basic Add-ons
 
-I check what basic tweaks does to performance:
+1. Add a choice of positional vs. rotary (RoPE). I add RoPE embedding as an option to my LLM class. Improvement in loss compared to absolute positions.
 
-1. Add a choice of positional vs. rotary (RoPE). I add RoPE embedding as an option to my LLM class. In the same setting as above, RoPE improves train and val loss to 1.32 and 1.36 respectively.
+2. Supervised Fine Tuning (SFT) on some QandA format.
 
-2. Implement KV cache for efficiency
+To Do:
 
-3. Supervised Fine Tuning (SFT) on .
+1. Add a mixture of expert and KV cache manually.
 
- The result before and after
+2. Do basic mech-interp, e.g. induction etc.
 
-
-4. Add a mixture of expert manually.
-
-
-
-6. Basic mech-interp experiments:
-
-7.
