@@ -1,5 +1,5 @@
 # LLM-basics
-Basic exercises in LLM architecture (see below) trained on a local GPU. Tha main code here is written by me. A wise guy said, you can outsource your thinking, but not your understanding.
+Basic exercises in LLM architecture (see below) trained on a local GPU. Tha main code here is written by me. A wise guy once said, you can outsource your thinking, but not your understanding.
 
 
 ######### What's in this?
